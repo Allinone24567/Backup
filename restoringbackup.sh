@@ -12,7 +12,6 @@ echo -e "\t\t>>>>>        Listing Files Successful       <<<<<\n\n\t\t>>>>>     
 diff newfileslist.txt fileslist.txt | grep "^<" | sed 's/< //' > deletingfiles.txt
 xargs rm -rf < deletingfiles.txt 2>/dev/null
 rm deletingfiles.txt
-rm newfileslist.txt
 echo -e "\t\t>>>>> Deleting Unnecessary Files Successful <<<<<\n"
 if [ -e ./backup.tar.gz ]; then
 echo -e "\t\t>>>>>   'backup.tar.gz' file is detected    <<<<<\n"
