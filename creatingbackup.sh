@@ -15,6 +15,7 @@ echo './dev/*
 ./sys/*
 ./tmp/*
 ./run/*
+./boot/*
 ./mnt/*
 ./media/*
 ./lost+found*
@@ -22,12 +23,16 @@ echo './dev/*
 ./exclude1.txt
 ./exclude2.txt
 ./exclude3.txt
+./exclude4.txt
 ./creatingbackup.sh
 ./fileslist.txt
 ./usr/bin/tar
 ./usr/bin/gzip' > exclude3.txt
-tar -czpf backup.tar.gz --preserve-permissions --ignore-failed-read --same-owner --exclude-from=exclude1.txt --exclude-from=exclude2.txt --exclude-from=exclude3.txt ./ 2>/dev/null
+version=$(find ./ -name "initrd.img-*" | head -n 1 | awk -F"-" '{print $2}')
+find ./ | grep $version - > exclude4.txt
+tar -czpf backup.tar.gz --preserve-permissions --ignore-failed-read --same-owner --exclude-from=exclude1.txt --exclude-from=exclude2.txt --exclude-from=exclude3.txt --exclude-from=exclude4.txt ./ 2>/dev/null
 rm exclude1.txt
 rm exclude2.txt
 rm exclude3.txt
+rm exclude4.txt
 echo -e "\t\t>>>>>    Creating Backup Successful     <<<<<\n\n\t\t>>>>>         Script Completed          <<<<<\n"
