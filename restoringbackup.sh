@@ -8,11 +8,15 @@ exit
 fi
 echo -e "\t\t>>>>>             Listing Files             <<<<<\n"
 version=$(find ./ -name "initrd.img-*" | head -n 1 | awk -F"-" '{print $2}')
-find ./ | grep -v $version - | grep -v "^./run/screen" - | grep -v "^./boot" - | sort > newfileslist.txt
+find ./ | grep -v "^./run/screen" - | grep -v "^./boot" - | sort > files.txt
+cat files.txt | grep $version - | grep oracle - | sort > ffiles.txt
+diff files.txt ffiles.txt | grep "^<" | sed 's/< //' > newfileslist.txt
 echo -e "\t\t>>>>>        Listing Files Successful       <<<<<\n\n\t\t>>>>>       Deleting Unnecessary Files      <<<<<\n"
 diff newfileslist.txt fileslist.txt | grep "^<" | sed 's/< //' > deletingfiles.txt
 xargs rm -rf < deletingfiles.txt 2>/dev/null
 rm deletingfiles.txt
+rm newfileslist.txt
+rm ffiles.txt
 echo -e "\t\t>>>>> Deleting Unnecessary Files Successful <<<<<\n"
 if [ -e ./backup.tar.gz ]; then
 echo -e "\t\t>>>>>   'backup.tar.gz' file is detected    <<<<<\n"
