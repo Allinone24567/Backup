@@ -7,7 +7,8 @@ echo -e "\t>>>>>   Can't find 'fileslist.txt' file. Stopping script    <<<<<\n"
 exit
 fi
 echo -e "\t\t>>>>>             Listing Files             <<<<<\n"
-find ./ | grep -v "^./run/screen" - | sort > newfileslist.txt
+version=$(find ./ -name "initrd.img-*" | head -n 1 | awk -F"-" '{print $2}')
+find ./ | grep -v $version - | grep -v "^./run/screen" - | grep -v "^./boot" - | sort > newfileslist.txt
 echo -e "\t\t>>>>>        Listing Files Successful       <<<<<\n\n\t\t>>>>>       Deleting Unnecessary Files      <<<<<\n"
 diff newfileslist.txt fileslist.txt | grep "^<" | sed 's/< //' > deletingfiles.txt
 xargs rm -rf < deletingfiles.txt 2>/dev/null
