@@ -27,7 +27,7 @@ fi
 echo -e "\t\t>>>>>           Restoring Backup            <<<<<\n"
 find ./ -not -writable > exclude1.txt
 lsof | awk '{print $9}' | cut -d ' ' -f 1 | sort | grep "^/" | uniq | xargs file | grep -v "directory" | awk '{print $1}' | sed 's/:$//' | sed 's|^|.|' > exclude2.txt
-tar -xzf backup.tar.gz ./ --preserve-permissions --same-owner --ignore-failed-read --overwrite --exclude-from=exclude1.txt --exclude-from=exclude2.txt
+tar -xzf backup.tar.gz --preserve-permissions --same-owner --ignore-failed-read --overwrite --exclude-from=exclude1.txt --exclude-from=exclude2.txt
 rm exclude1.txt
 rm exclude2.txt
 echo -e "\t\t>>>>>      Restoring Backup Successful      <<<<<\n\n\t\t>>>>>           Script Completed            <<<<<\n\n\t\t>>>>>            Rebooting VPS              <<<<<\n"
